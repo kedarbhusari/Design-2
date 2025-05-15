@@ -2,8 +2,10 @@
 # depending upon the hash value, insertion/deletion/get is done in the individual 
 # linked list's for that item.
 
+import sys
+
 class Node:
-    def __init__(self, key=0, val=0, next=None):
+    def __init__(self, key=-sys.maxsize-1, val=0, next=None):
         self.key = key
         self.val = val
         self.next = next
@@ -15,7 +17,7 @@ class Bucket:
     def add(self, my_tuple) -> None:
         key, value = my_tuple
         update_done = False
-        if (self.head.key == 0):
+        if (self.head.key == -sys.maxsize-1):
             self.head.key = key
             self.head.val = value
         else:
@@ -35,7 +37,7 @@ class Bucket:
                     tempNode.next = newNode
 
     def delete(self, num) -> None:
-        if self.head.key == 0:
+        if self.head.key == -sys.maxsize-1:
             return -1
         tempNode = self.head
         if tempNode.next is None:
@@ -46,6 +48,8 @@ class Bucket:
                 tempNode.next = tempNode.next.next
 
     def get(self, num) -> int:
+        if self.head.key == -sys.maxsize-1:
+            return -1
         tempNode = self.head
         if tempNode.next is None and tempNode.key != 0:
             return tempNode.val
